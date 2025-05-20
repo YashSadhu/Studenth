@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Primary Colors */
+    --color-primary: #4F46E5; /* indigo-600 */
+    --color-primary-hover: #4338CA; /* indigo-700 */
+    --color-primary-light: #E0E7FF; /* indigo-100 */
+    
+    /* Neutral Colors */
+    --color-background: #F8FAFC; /* slate-50 */
+    --color-background-dark: #0F172A; /* slate-900 */
+    --color-surface: #FFFFFF; /* white */
+    --color-surface-dark: #1E293B; /* slate-800 */
+    --color-border: #E2E8F0; /* slate-200 */
+    --color-border-dark: #334155; /* slate-700 */
+    --color-text-primary: #0F172A; /* slate-900 */
+    --color-text-primary-dark: #F1F5F9; /* slate-100 */
+    --color-text-secondary: #475569; /* slate-600 */
+    --color-text-secondary-dark: #94A3B8; /* slate-400 */
+    
+    /* Semantic Colors */
+    --color-success: #10B981; /* emerald-500 */
+    --color-warning: #F59E0B; /* amber-500 */
+    --color-error: #F43F5E; /* rose-500 */
+    --color-info: #0EA5E9; /* sky-500 */
+    --color-focus: #8B5CF6; /* violet-500 */
+    --color-mastery-low: #F87171; /* red-400 */
+    --color-mastery-medium: #FBBF24; /* yellow-400 */
+    --color-mastery-high: #4ADE80; /* green-400 */
+    
+    /* Primary Color Shades */
+    --color-primary-50: #EBEAFD;
+    --color-primary-100: #D7D5FB;
+    --color-primary-200: #AFABF7;
+    --color-primary-300: #8781F3;
+    --color-primary-400: #5F57EF;
+    --color-primary-500: #4F46E5;
+    --color-primary-600: #2D23D0;
+    --color-primary-700: #221BA0;
+    --color-primary-800: #18136F;
+    --color-primary-900: #0E0C3F;
+  }
+}
+
+@layer components {
+  /* Button Styles */
+  .btn-primary {
+    @apply bg-primary text-white px-4 py-2 rounded-md font-medium hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors;
+  }
+  
+  .btn-secondary {
+    @apply border-2 border-primary text-primary px-4 py-2 rounded-md font-medium hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors;
+  }
+  
+  .btn-tertiary {
+    @apply text-primary px-4 py-2 rounded-md font-medium hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors;
+  }
+  
+  .btn-success {
+    @apply bg-success text-white px-4 py-2 rounded-md font-medium hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-success focus:ring-offset-2 transition-colors;
+  }
+  
+  .btn-danger {
+    @apply bg-error text-white px-4 py-2 rounded-md font-medium hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-error focus:ring-offset-2 transition-colors;
+  }
+  
+  /* Card Styles */
+  .card {
+    @apply bg-surface dark:bg-surface-dark rounded-lg shadow-sm p-4 border border-border dark:border-border-dark;
+  }
+  
+  .card-interactive {
+    @apply card hover:shadow-md transition-shadow cursor-pointer;
+  }
+  
+  .card-stat {
+    @apply card p-3;
+  }
+  
+  /* Input Styles */
+  .input {
+    @apply w-full px-3 py-2 border border-border dark:border-border-dark rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-surface-dark dark:text-text-primary-dark;
+  }
+  
+  /* Typography */
+  .display {
+    @apply text-4xl font-bold tracking-tight;
+  }
+  
+  .heading-1 {
+    @apply text-3xl font-bold tracking-tight;
+  }
+  
+  .heading-2 {
+    @apply text-2xl font-semibold;
+  }
+  
+  .heading-3 {
+    @apply text-xl font-semibold;
+  }
+  
+  .heading-4 {
+    @apply text-lg font-medium;
+  }
+  
+  .body-large {
+    @apply text-base;
+  }
+  
+  .body {
+    @apply text-sm;
+  }
+  
+  .caption {
+    @apply text-xs;
+  }
+  
+  .code {
+    @apply font-mono text-sm;
+  }
+}

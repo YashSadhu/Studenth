@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Tracker - Dashboard</title>
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body class="bg-background dark:bg-background-dark text-text-primary dark:text-text-primary-dark min-h-screen flex flex-col">
+    <!-- Header Navigation -->
+    <header class="bg-surface dark:bg-surface-dark border-b border-border dark:border-border-dark sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <img src="https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Study Tracker Logo" class="h-8 w-8 rounded-md" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                <h1 class="text-xl font-bold">Study Tracker</h1>
+            </div>
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="dashboard.html" class="text-primary font-medium" aria-current="page">Dashboard</a>
+                <a href="flashcard_creation.html" class="text-text-secondary dark:text-text-secondary-dark hover:text-primary dark:hover:text-primary transition-colors">Create Flashcards</a>
+                <a href="flashcard_review.html" class="text-text-secondary dark:text-text-secondary-dark hover:text-primary dark:hover:text-primary transition-colors">Review</a>
+                <a href="basic_analytics.html" class="text-text-secondary dark:text-text-secondary-dark hover:text-primary dark:hover:text-primary transition-colors">Analytics</a>
+            </nav>
+            <div class="flex items-center space-x-3">
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-primary-light dark:hover:bg-surface-dark transition-colors focus:outline-none focus:ring-2 focus:ring-primary">
+                    <!-- Sun icon for dark mode (shown when in dark mode) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <!-- Moon icon for light mode (shown when in light mode) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+                <div class="relative">
+                    <button id="user-menu" class="flex items-center space-x-2 focus:outline-none">
+                        <div class="w-8 h-8 rounded-full bg-primary-light dark:bg-primary-800 flex items-center justify-center text-primary dark:text-primary-200 font-medium">
+                            JS
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-6">
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="heading-1 dark:text-text-primary-dark">Dashboard</h1>
+            <div class="flex items-center space-x-3">
+                <span class="text-text-secondary dark:text-text-secondary-dark text-sm">Last synced: Today, 10:45 AM</span>
+                <button class="p-2 rounded-full hover:bg-primary-light dark:hover:bg-surface-dark transition-colors focus:outline-none focus:ring-2 focus:ring-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-text-secondary dark:text-text-secondary-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Split Screen Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Left Panel: Upcoming Flashcard Reviews -->
+            <div class="card p-5">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="heading-3">Upcoming Reviews</h2>
+                    <a href="flashcard_review.html" class="btn-tertiary py-1 px-3 text-sm">View All</a>
+                </div>
+                
+                <!-- Skeleton Loader for Flashcards -->
+                <div id="flashcards-loader" class="space-y-4">
+                    <div class="animate-pulse flex items-center p-3 rounded-md border border-border dark:border-border-dark">
+                        <div class="flex-1">
+                            <div class="h-4 bg-border dark:bg-border-dark rounded w-3/4 mb-2"></div>
+                            <div class="h-3 bg-border dark:bg-border-dark rounded w-1/2"></div>
+                        </div>
+                        <div class="h-8 w-16 bg-border dark:bg-border-dark rounded"></div>
+                    </div>
+                    <div class="animate-pulse flex items-center p-3 rounded-md border border-border dark:border-border-dark">
+                        <div class="flex-1">
+                            <div class="h-4 bg-border dark:bg-border-dark rounded w-2/3 mb-2"></div>
+                            <div class="h-3 bg-border dark:bg-border-dark rounded w-1/3"></div>
+                        </div>
+                        <div class="h-8 w-16 bg-border dark:bg-border-dark rounded"></div>
+                    </div>
+                    <div class="animate-pulse flex items-center p-3 rounded-md border border-border dark:border-border-dark">
+                        <div class="flex-1">
+                            <div class="h-4 bg-border dark:bg-border-dark rounded w-5/6 mb-2"></div>
+                            <div class="h-3 bg-border dark:bg-border-dark rounded w-2/5"></div>
+                        </div>
+                        <div class="h-8 w-16 bg-border dark:bg-border-dark rounded"></div>
+                    </div>
+                </div>
+                
+                <!-- Flashcard Queue (Hidden until loaded) -->
+                <div id="flashcards-queue" class="space-y-3 hidden">
+                    <!-- Flashcard 1 -->
+                    <a href="flashcard_review.html" class="flex items-center p-3 rounded-md border border-border dark:border-border-dark hover:border-primary dark:hover:border-primary hover:shadow-sm transition-all">
+                        <div class="flex-1">
+                            <h3 class="font-medium mb-1">Organic Chemistry: Functional Groups</h3>
+                            <div class="flex items-center">
+                                <span class="inline-block px-2 py-0.5 bg-primary-light dark:bg-primary-900 text-primary text-xs rounded-full mr-2">Chemistry</span>
+                                <span class="text-text-secondary dark:text-text-secondary-dark text-xs">42 cards</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="text-error font-medium text-sm">Due now</span>
+                            <span class="text-text-secondary dark:text-text-secondary-dark text-xs">Last: 3 days ago</span>
+                        </div>
+                    </a>
+                    
+                    <!-- Flashcard 2 -->
+                    <a href="flashcard_review.html" class="flex items-center p-3 rounded-md border border-border dark:border-border-dark hover:border-primary dark:hover:border-primary hover:shadow-sm transition-all">
+                        <div class="flex-1">
+                            <h3 class="font-medium mb-1">JavaScript: Promises & Async/Await</h3>
+                            <div class="flex items-center">
+                                <span class="inline-block px-2 py-0.5 bg-primary-light dark:bg-primary-900 text-primary text-xs rounded-full mr-2">Programming</span>
+                                <span class="text-text-secondary dark:text-text-secondary-dark text-xs">18 cards</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="text-warning font-medium text-sm">Due in 2h</span>
+                            <span class="text-text-secondary dark:text-text-secondary-dark text-xs">Last: 5 days ago</span>
+                        </div>
+                    </a>
+                    
+                    <!-- Flashcard 3 -->
+                    <a href="flashcard_review.html" class="flex items-center p-3 rounded-md border border-border dark:border-border-dark hover:border-primary dark:hover:border-primary hover:shadow-sm transition-all">
+                        <div class="flex-1">
+                            <h3 class="font-medium mb-1">Spanish Verb Conjugations</h3>
+                            <div class="flex items-center">
+                                <span class="inline-block px-2 py-0.5 bg-primary-light dark:bg-primary-900 text-primary text-xs rounded-full mr-2">Languages</span>
+                                <span class="text-text-secondary dark:text-text-secondary-dark text-xs">31 cards</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="text-text-secondary dark:text-text-secondary-dark font-medium text-sm">Due tomorrow</span>
+                            <span class="text-text-secondary dark:text-text-secondary-dark text-xs">Last: 2 days ago</span>
+                        </div>
+                    </a>
+                    
+                    <!-- Flashcard 4 -->
+                    <a href="flashcard_review.html" class="flex items-center p-3 rounded-md border border-border dark:border-border-dark hover:border-primary dark:hover:border-primary hover:shadow-sm transition-all">
+                        <div class="flex-1">
+                            <h3 class="font-medium mb-1">World History: Renaissance Period</h3>
+                            <div class="flex items-center">
+                                <span class="inline-block px-2 py-0.5 bg-primary-light dark:bg-primary-900 text-primary text-xs rounded-full mr-2">History</span>
+                                <span class="text-text-secondary dark:text-text-secondary-dark text-xs">24 cards</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="text-text-secondary dark:text-text-secondary-dark font-medium text-sm">Due in 2 days</span>
+                            <span class="text-text-secondary dark:text-text-secondary-dark text-xs">Last: 1 week ago</span>
+                        </div>
+                    </a>
+                    
+                    <!-- Flashcard 5 -->
+                    <a href="flashcard_review.html" class="flex items-center p-3 rounded-md border border-border dark:border-border-dark hover:border-primary dark:hover:border-primary hover:shadow-sm transition-all">
+                        <div class="flex-1">
+                            <h3 class="font-medium mb-1">Calculus: Integration Techniques</h3>
+                            <div class="flex items-center">
+                                <span class="inline-block px-2 py-0.5 bg-primary-light dark:bg-primary-900 text-primary text-xs rounded-full mr-2">Mathematics</span>
+                                <span class="text-text-secondary dark:text-text-secondary-dark text-xs">15 cards</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="text-text-secondary dark:text-text-secondary-dark font-medium text-sm">Due in 3 days</span>
+                            <span class="text-text-secondary dark:text-text-secondary-dark text-xs">Last: 4 days ago</span>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- Empty State (Hidden by default) -->
+                <div id="flashcards-empty" class="hidden py-8 flex flex-col items-center justify-center text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-text-secondary dark:text-text-secondary-dark mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                    <h3 class="heading-4 mb-2">No flashcards to review</h3>
+                    <p class="text-text-secondary dark:text-text-secondary-dark mb-4">Create your first set of flashcards to start studying</p>
+                    <a href="flashcard_creation.html" class="btn-primary">Create Flashcards</a>
+                </div>
+            </div>
+            
+            <!-- Right Panel: Daily Study Habits -->
+            <div class="card p-5">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="heading-3">Today's Study Habits</h2>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-text-secondary dark:text-text-secondary-dark">
+                            <span id="today-date">May 15, 2025</span>
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Streak Counter -->
+                <div class="flex items-center mb-6 bg-primary-light dark:bg-primary-900 bg-opacity-50 dark:bg-opacity-20 rounded-md p-3">
+                    <div class="p-2 rounded-full bg-primary-light dark:bg-primary-800 mr-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="flex items-baseline">
+                            <span id="streak-count" class="text-2xl font-bold mr-2">12</span>
+                            <span class="text-text-secondary dark:text-text-secondary-dark">day streak</span>
+                        </div>
+                        <p class="text-sm text-text-secondary dark:text-text-secondary-dark">Keep it up! You're building a great study habit.</p>
+                    </div>
+                </div>
+                
+                <!-- Skeleton Loader for Habits -->
+                <div id="habits-loader" class="space-y-4">
+                    <div class="animate-pulse flex items-center">
+                        <div class="h-5 w-5 bg-border dark:bg-border-dark rounded mr-3"></div>
+                        <div class="h-4 bg-border dark:bg-border-dark rounded w-3/4 flex-1"></div>
+                    </div>
+                    <div class="animate-pulse flex items-center">
+                        <div class="h-5 w-5 bg-border dark:bg-border-dark rounded mr-3"></div>
+                        <div class="h-4 bg-border dark:bg-border-dark rounded w-2/3 flex-1"></div>
+                    </div>
+                    <div class="animate-pulse flex items-center">
+                        <div class="h-5 w-5 bg-border dark:bg-border-dark rounded mr-3"></div>
+                        <div class="h-4 bg-border dark:bg-border-dark rounded w-5/6 flex-1"></div>
+                    </div>
+                </div>
+                
+                <!-- Habit Checklist (Hidden until loaded) -->
+                <div id="habits-list" class="space-y-3 hidden">
+                    <div class="flex items-center p-2 rounded-md hover:bg-primary-light dark:hover:bg-primary-900 dark:hover:bg-opacity-20 transition-colors">
+                        <input type="checkbox" id="habit-1" class="h-5 w-5 rounded border-border dark:border-border-dark text-primary focus:ring-primary mr-3">
+                        <label for="habit-1" class="flex-1 cursor-pointer">Review flashcards (min. 20 cards)</label>
+                    </div>
+                    
+                    <div class="flex items-center p-2 rounded-md hover:bg-primary-light dark:hover:bg-primary-900 dark:hover:bg-opacity-20 transition-colors">
+                        <input type="checkbox" id="habit-2" class="h-5 w-5 rounded border-border dark:border-border-dark text-primary focus:ring-primary mr-3" checked>
+                        <label for="habit-2" class="flex-1 cursor-pointer">Read textbook (30 minutes)</label>
+                    </div>
+                    
+                    <div class="flex items-center p-2 rounded-md hover:bg-primary-light dark:hover:bg-primary-900 dark:hover:bg-opacity-20 transition-colors">
+                        <input type="checkbox" id="habit-3" class="h-5 w-5 rounded border-border dark:border-border-dark text-primary focus:ring-primary mr-3">
+                        <label for="habit-3" class="flex-1 cursor-pointer">Practice problems (5 minimum)</label>
+                    </div>
+                    
+                    <div class="flex items-center p-2 rounded-md hover:bg-primary-light dark:hover:bg-primary-900 dark:hover:bg-opacity-20 transition-colors">
+                        <input type="checkbox" id="habit-4" class="h-5 w-5 rounded border-border dark:border-border-dark text-primary focus:ring-primary mr-3">
+                        <label for="habit-4" class="flex-1 cursor-pointer">Create new flashcards (if needed)</label>
+                    </div>
+                    
+                    <div class="flex items-center p-2 rounded-md hover:bg-primary-light dark:hover:bg-primary-900 dark:hover:bg-opacity-20 transition-colors">
+                        <input type="checkbox" id="habit-5" class="h-5 w-5 rounded border-border dark:border-border-dark text-primary focus:ring-primary mr-3">
+                        <label for="habit-5" class="flex-1 cursor-pointer">Summarize today's learning</label>
+                    </div>
+                </div>
+                
+                <!-- Add New Habit Button -->
+                <button id="add-habit-btn" class="flex items-center text-primary mt-4 p-2 rounded-md hover:bg-primary-light dark:hover:bg-primary-900 dark:hover:bg-opacity-20 transition-colors hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    Add new habit
+                </button>
+                
+                <!-- Empty State (Hidden by default) -->
+                <div id="habits-empty" class="hidden py-8 flex flex-col items-center justify-center text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-text-secondary dark:text-text-secondary-dark mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    </svg>
+                    <h3 class="heading-4 mb-2">No study habits yet</h3>
+                    <p class="text-text-secondary dark:text-text-secondary-dark mb-4">Create habits to track your daily study progress</p>
+                    <button id="create-habit-btn" class="btn-primary">Create First Habit</button>
+                </div>
+                
+                <!-- Progress Section -->
+                <div id="progress-section" class="mt-6 pt-4 border-t border-border dark:border-border-dark hidden">
+                    <h3 class="heading-4 mb-3">Today's Progress</h3>
+                    <div class="relative pt-1">
+                        <div class="flex items-center justify-between mb-1">
+                            <div>
+                                <span class="text-xs font-semibold inline-block text-primary">
+                                    40% Complete
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-xs font-semibold inline-block text-text-secondary dark:text-text-secondary-dark">
+                                    2/5 tasks
+                                </span>
+                            </div>
+                        </div>
+                        <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-primary-light dark:bg-primary-900 dark:bg-opacity-30">
+                            <div style="width:40%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-primary"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Stats Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+            <!-- Total Flashcards -->
+            <div class="card-stat flex items-center">
+                <div class="p-3 rounded-full bg-primary-light dark:bg-primary-900 mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-text-secondary dark:text-text-secondary-dark text-sm font-medium">Total Flashcards</h3>
+                    <div class="skeleton-loader h-7 w-16 bg-border dark:bg-border-dark rounded animate-pulse" id="total-cards-loader"></div>
+                    <p class="text-2xl font-bold hidden" id="total-cards-value">130</p>
+                </div>
+            </div>
+            
+            <!-- Current Streak -->
+            <div class="card-stat flex items-center">
+                <div class="p-3 rounded-full bg-warning bg-opacity-20 dark:bg-warning dark:bg-opacity-20 mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-text-secondary dark:text-text-secondary-dark text-sm font-medium">Current Streak</h3>
+                    <div class="skeleton-loader h-7 w-16 bg-border dark:bg-border-dark rounded animate-pulse" id="streak-loader"></div>
+                    <p class="text-2xl font-bold hidden" id="streak-value">12 days</p>
+                </div>
+            </div>
+            
+            <!-- Cards Due Today -->
+            <div class="card-stat flex items-center">
+                <div class="p-3 rounded-full bg-error bg-opacity-20 dark:bg-error dark:bg-opacity-20 mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-error" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-text-secondary dark:text-text-secondary-dark text-sm font-medium">Due Today</h3>
+                    <div class="skeleton-loader h-7 w-16 bg-border dark:bg-border-dark rounded animate-pulse" id="due-today-loader"></div>
+                    <p class="text-2xl font-bold hidden" id="due-today-value">18</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface dark:bg-surface-dark border-t border-border dark:border-border-dark py-6">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <img src="https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Study Tracker Logo" class="h-8 w-8 rounded-md mr-2" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                    <span class="text-lg font-bold">Study Tracker</span>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-text-secondary dark:text-text-secondary-dark hover:text-primary dark:hover:text-primary transition-colors">Help</a>
+                    <a href="#" class="text-text-secondary dark:text-text-secondary-dark hover:text-primary dark:hover:text-primary transition-colors">Privacy</a>
+                    <a href="#" class="text-text-secondary dark:text-text-secondary-dark hover:text-primary dark:hover:text-primary transition-colors">Terms</a>
+                </div>
+            </div>
+            <div class="mt-6 text-center md:text-left text-sm text-text-secondary dark:text-text-secondary-dark">
+                © 2025 Study Tracker. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        
+        // Check for saved theme preference or use system preference
+        const savedTheme = localStorage.getItem('theme') || 
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        
+        // Apply the theme
+        if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        
+        // Toggle theme when button is clicked
+        themeToggle.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Set current date
+        const today = new Date();
+        const options = { month: 'long', day: 'numeric', year: 'numeric' };
+        document.getElementById('today-date').textContent = today.toLocaleDateString('en-US', options);
+
+        // Simulate data loading with skeleton loaders
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show skeleton loaders
+            const loaders = document.querySelectorAll('.skeleton-loader');
+            loaders.forEach(loader => {
+                loader.classList.remove('hidden');
+            });
+            
+            // Simulate loading data from IndexedDB
+            setTimeout(() => {
+                // Hide loaders and show data
+                loaders.forEach(loader => {
+                    loader.classList.add('hidden');
+                });
+                
+                // Show flashcards queue
+                document.getElementById('flashcards-loader').classList.add('hidden');
+                document.getElementById('flashcards-queue').classList.remove('hidden');
+                
+                // Show habits list
+                document.getElementById('habits-loader').classList.add('hidden');
+                document.getElementById('habits-list').classList.remove('hidden');
+                document.getElementById('add-habit-btn').classList.remove('hidden');
+                document.getElementById('progress-section').classList.remove('hidden');
+                
+                // Show stats values
+                document.getElementById('total-cards-value').classList.remove('hidden');
+                document.getElementById('streak-value').classList.remove('hidden');
+                document.getElementById('due-today-value').classList.remove('hidden');
+                
+                // Uncomment the following lines to test empty states
+                // document.getElementById('flashcards-queue').classList.add('hidden');
+                // document.getElementById('flashcards-empty').classList.remove('hidden');
+                // document.getElementById('habits-list').classList.add('hidden');
+                // document.getElementById('add-habit-btn').classList.add('hidden');
+                // document.getElementById('progress-section').classList.add('hidden');
+                // document.getElementById('habits-empty').classList.remove('hidden');
+            }, 2000);
+        });
+
+        // Habit checkbox event listeners
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', updateProgress);
+        });
+
+        // Update progress bar based on completed habits
+        function updateProgress() {
+            const totalHabits = document.querySelectorAll('#habits-list input[type="checkbox"]').length;
+            const completedHabits = document.querySelectorAll('#habits-list input[type="checkbox"]:checked').length;
+            
+            const progressPercent = Math.round((completedHabits / totalHabits) * 100);
+            
+            // Update progress bar
+            const progressBar = document.querySelector('#progress-section .bg-primary');
+            progressBar.style.width = `${progressPercent}%`;
+            
+            // Update text
+            document.querySelector('#progress-section .text-primary').textContent = `${progressPercent}% Complete`;
+            document.querySelector('#progress-section .text-text-secondary').textContent = `${completedHabits}/${totalHabits} tasks`;
+        }
+
+        // Add new habit button
+        document.getElementById('add-habit-btn').addEventListener('click', function() {
+            const habitName = prompt('Enter the name of your new habit:');
+            if (habitName && habitName.trim() !== '') {
+                const habitsList = document.getElementById('habits-list');
+                const habitId = `habit-${Date.now()}`;
+                const newHabit = document.createElement('div');
+                newHabit.className = 'flex items-center p-2 rounded-md hover:bg-primary-light dark:hover:bg-primary-900 dark:hover:bg-opacity-20 transition-colors';
+                newHabit.innerHTML = `
+                    <input type="checkbox" id="${habitId}" class="h-5 w-5 rounded border-border dark:border-border-dark text-primary focus:ring-primary mr-3">
+                    <label for="${habitId}" class="flex-1 cursor-pointer">${habitName}</label>
+                `;
+                habitsList.appendChild(newHabit);
+                habitsList.classList.remove('hidden');
+            }
+        });
+
+        // Create first habit button
+        document.getElementById('create-habit-btn')?.addEventListener('click', function() {
+            document.getElementById('habits-empty').classList.add('hidden');
+            document.getElementById('habits-list').classList.remove('hidden');
+            document.getElementById('add-habit-btn').classList.remove('hidden');
+            document.getElementById('progress-section').classList.remove('hidden');
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+<script id="dhws-elementInspector" src="../public/dhws-web-inspector.js"></script>
+<script id="dhws-errorTracker" src="../public/dhws-error-tracker.js"></script>
+</body>
+</html>
