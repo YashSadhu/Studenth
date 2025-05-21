@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursor Abuse Demo</title>
+    <style>
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --accent: #FFE66D;
+            --background: #1A1A1A;
+            --text: #FFFFFF;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--background);
+            color: var(--text);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            cursor: default;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradient 5s ease infinite;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .abuse-button {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 0.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .abuse-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .abuse-button:active {
+            transform: translateY(0);
+        }
+
+        .cursor-trail {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .cursor-trail::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: trail 0.5s ease-out forwards;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes trail {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .cursor-spin {
+            animation: spin 0.5s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .cursor-bounce {
+            animation: bounce 0.5s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .cursor-shake {
+            animation: shake 0.5s ease infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .effect-description {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cursor Abuse Demo</h1>
+        <p>Click any button to see different cursor abuse effects!</p>
+        
+        <div class="button-container">
+            <button class="abuse-button" onclick="startTrailEffect()">Trail Effect</button>
+            <button class="abuse-button" onclick="startSpinEffect()">Spin Effect</button>
+            <button class="abuse-button" onclick="startBounceEffect()">Bounce Effect</button>
+        </div>
+
+        <div class="effect-description">
+            <p id="effect-text">Select an effect to see the description</p>
+        </div>
+    </div>
+
+    <script>
+        const effectDescriptions = {
+            trail: "Creates a colorful trail behind your cursor",
+            spin: "Makes your cursor spin like crazy",
+            bounce: "Makes your cursor bounce up and down"
+        };
+
+        function updateEffectDescription(effect) {
+            document.getElementById('effect-text').textContent = effectDescriptions[effect];
+        }
+
+        function startTrailEffect() {
+            updateEffectDescription('trail');
+            document.body.style.cursor = 'none';
+            
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            document.body.appendChild(trail);
+
+            document.addEventListener('mousemove', (e) => {
+                const trailDot = document.createElement('div');
+                trailDot.className = 'cursor-trail';
+                trailDot.style.left = e.clientX + 'px';
+                trailDot.style.top = e.clientY + 'px';
+                document.body.appendChild(trailDot);
+
+                setTimeout(() => {
+                    trailDot.remove();
+                }, 500);
+            });
+
+            setTimeout(() => {
+                document.body.style.cursor = 'default';
+                document.querySelectorAll('.cursor-trail').forEach(el => el.remove());
+            }, 5000);
+        }
+
+        function startSpinEffect() {
+            updateEffectDescription('spin');
+            document.body.style.cursor = 'none';
+            
+            const spinCursor = document.createElement('div');
+            spinCursor.className = 'cursor-trail cursor-spin';
+            document.body.appendChild(spinCursor);
+
+            document.addEventListener('mousemove', (e) => {
+                spinCursor.style.left = e.clientX + 'px';
+                spinCursor.style.top = e.clientY + 'px';
+            });
+
+            setTimeout(() => {
+                document.body.style.cursor = 'default';
+                spinCursor.remove();
+            }, 5000);
+        }
+
+        function startBounceEffect() {
+            updateEffectDescription('bounce');
+            document.body.style.cursor = 'none';
+            
+            const bounceCursor = document.createElement('div');
+            bounceCursor.className = 'cursor-trail cursor-bounce';
+            document.body.appendChild(bounceCursor);
+
+            document.addEventListener('mousemove', (e) => {
+                bounceCursor.style.left = e.clientX + 'px';
+                bounceCursor.style.top = e.clientY + 'px';
+            });
+
+            setTimeout(() => {
+                document.body.style.cursor = 'default';
+                bounceCursor.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html> 

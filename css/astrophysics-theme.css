@@ -1,0 +1,460 @@
+/* Galaxies & Astrophysics Theme */
+:root {
+  /* Galaxies & Space Colors */
+  --color-deep-space: #0A0B1E;      /* Deep space */
+  --color-galaxy-purple: #5E2BFF;   /* Vibrant galaxy purple */
+  --color-nebula-pink: #FF2D75;     /* Nebula pink */
+  --color-cosmic-blue: #00F0FF;     /* Cosmic blue */
+  --color-star-yellow: #FFE66D;     /* Warm star yellow */
+  --color-supernova-orange: #FF6B6B; /* Supernova orange */
+  --color-stardust: #E6E6FA;        /* Light stardust */
+  --color-quasar-cyan: #00F5D4;     /* Quasar cyan */
+  
+  /* UI Colors */
+  --color-primary: var(--color-galaxy-purple);
+  --color-primary-dark: #4A1EFF;
+  --color-secondary: var(--color-nebula-pink);
+  --color-accent: var(--color-quasar-cyan);
+  --color-background: var(--color-deep-space);
+  --color-surface: #12142E;
+  --color-text: #FFFFFF;
+  --color-text-secondary: #B0B8D0;
+  --color-border: #25254A;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--color-galaxy-purple), var(--color-nebula-pink));
+  --gradient-cosmic: linear-gradient(135deg, var(--color-quasar-cyan), var(--color-cosmic-blue));
+  --gradient-nebula: linear-gradient(135deg, var(--color-nebula-pink), var(--color-galaxy-purple), var(--color-cosmic-blue));
+  
+  /* Glow Effects */
+  --glow-primary: 0 0 15px rgba(94, 43, 255, 0.7);
+  --glow-secondary: 0 0 20px rgba(255, 45, 117, 0.7);
+  --glow-accent: 0 0 25px rgba(0, 245, 212, 0.8);
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.6);
+  
+  /* Transitions */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base Styles */
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  background-image: 
+    radial-gradient(ellipse at 20% 20%, rgba(94, 43, 255, 0.15) 0%, transparent 30%),
+    radial-gradient(ellipse at 80% 80%, rgba(255, 45, 117, 0.15) 0%, transparent 30%),
+    radial-gradient(ellipse at 50% 50%, rgba(0, 240, 255, 0.1) 0%, transparent 40%),
+    linear-gradient(to bottom, rgba(10, 11, 30, 0.9), rgba(18, 20, 46, 0.9)),
+    url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="1" fill="white" opacity="0.8"/><circle cx="50" cy="30" r="0.5" fill="white" opacity="0.6"/><circle cx="80" cy="20" r="0.7" fill="white" opacity="0.7"/><circle cx="30" cy="70" r="0.8" fill="white" opacity="0.6"/><circle cx="70" cy="80" r="0.6" fill="white" opacity="0.8"/></svg>');
+  background-attachment: fixed;
+  background-size: cover;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Orbitron', 'Arial', sans-serif;
+  font-weight: 700;
+  color: var(--color-text);
+  background: linear-gradient(90deg, var(--color-text), var(--color-quasar-cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 15px rgba(0, 245, 212, 0.3);
+  letter-spacing: 0.05em;
+  position: relative;
+  display: inline-block;
+  animation: textGlow 3s ease-in-out infinite alternate;
+}
+
+h1::after, h2::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--gradient-cosmic);
+  border-radius: 2px;
+}
+
+/* Cards */
+.card {
+  background: rgba(25, 26, 60, 0.6);
+  border: 1px solid rgba(94, 43, 255, 0.2);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gradient-nebula);
+  background-size: 200% 200%;
+  animation: gradientBG 8s ease infinite;
+  z-index: -1;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(94, 43, 255, 0.1) 0%,
+    transparent 70%
+  );
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(94, 43, 255, 0.3);
+  border-color: var(--color-galaxy-purple);
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-galaxy-purple), var(--color-nebula-pink));
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  border-radius: 9999px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 15px rgba(94, 43, 255, 0.4);
+  background-size: 200% 200%;
+  animation: gradientBG 4s ease infinite;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(94, 43, 255, 0.6);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.btn-primary:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, var(--color-nebula-pink), var(--color-quasar-cyan));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background-size: 200% 200%;
+  animation: gradientBG 4s ease infinite;
+}
+
+.btn-primary:hover::before {
+  opacity: 1;
+}
+
+/* Animation for gradient backgrounds */
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes textGlow {
+  0% {
+    text-shadow: 0 0 10px rgba(0, 245, 212, 0.3);
+  }
+  100% {
+    text-shadow: 0 0 20px rgba(0, 245, 212, 0.6);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(94, 43, 255, 0.4);
+  }
+  70% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 15px rgba(94, 43, 255, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(94, 43, 255, 0);
+  }
+}
+
+/* Add subtle animation to cards */
+.card {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Add pulse animation to primary buttons */
+.btn-primary {
+  animation: pulse 4s infinite;
+}
+
+/* Add subtle animation to form elements on focus */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+  animation: pulse 2s infinite;
+}
+
+/* Add twinkling stars effect */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle var(--duration) infinite ease-in-out;
+}
+
+/* Add subtle pulse animation to buttons */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(94, 43, 255, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(94, 43, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(94, 43, 255, 0);
+  }
+}
+
+/* Form Elements */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  background-color: rgba(25, 26, 60, 0.6);
+  border: 1px solid rgba(94, 43, 255, 0.3);
+  color: var(--color-text);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.75rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 1rem;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-quasar-cyan);
+  box-shadow: 0 0 0 2px rgba(0, 240, 255, 0.3);
+  background-color: rgba(30, 32, 70, 0.8);
+}
+
+/* Placeholder text */
+::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+  opacity: 1;
+}
+
+/* Custom select arrow */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23B0B8D0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+/* Checkbox and Radio Buttons */
+input[type="checkbox"],
+input[type="radio"] {
+  appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--color-border);
+  border-radius: 0.25rem;
+  margin-right: 0.5rem;
+  position: relative;
+  top: 0.25rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+  background-color: var(--color-quasar-cyan);
+  border-color: var(--color-quasar-cyan);
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='10' viewBox='0 0 12 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 5L4.5 8.5L11 1.5' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+input[type="radio"] {
+  border-radius: 50%;
+}
+
+input[type="radio"]:checked {
+  background-image: url("data:image/svg+xml,%3Csvg width='8' height='8' viewBox='0 0 8 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='4' cy='4' r='3' fill='%23000'/%3E%3C/svg%3E");
+}
+
+/* Navigation */
+.nav-link {
+  color: var(--color-text-secondary);
+  transition: var(--transition);
+  position: relative;
+}
+
+.nav-link:hover {
+  color: var(--color-text);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gradient-primary);
+  transition: var(--transition);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    background-size: 200% 200%;
+  }
+  
+  .card {
+    border-radius: 0.5rem;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-space-darker);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* Starry Background Effect */
+.starry-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle var(--duration) infinite ease-in-out;
+  opacity: 0;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+
+/* Add this to your HTML: 
+<div class="starry-bg" id="stars"></div>
+<script>
+  // Generate stars
+  const stars = document.getElementById('stars');
+  for (let i = 0; i < 100; i++) {
+    const star = document.createElement('div');
+    star.classList.add('star');
+    star.style.width = Math.random() * 2 + 'px';
+    star.style.height = star.style.width;
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
+    stars.appendChild(star);
+  }
+</script>
+*/
