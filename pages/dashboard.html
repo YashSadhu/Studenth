@@ -362,11 +362,12 @@
         // Theme toggle functionality
         const themeToggle = document.getElementById('theme-toggle');
         
-        // Check for saved theme preference or use system preference
-        const savedTheme = localStorage.getItem('theme') || 
-            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        // Force light theme by default and clear any existing dark theme
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
         
-        // Apply the theme
+        // Apply the theme from local storage (will be light by default)
+        const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'dark') {
             document.documentElement.classList.add('dark');
         } else {
