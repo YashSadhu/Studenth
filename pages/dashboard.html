@@ -494,7 +494,17 @@
             }
         });
 
-        // Add new habit button
+        // Update delete button event listeners to delete directly
+        document.querySelectorAll('.delete-habit-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const habitItem = this.closest('.flex.items-center');
+                habitItem.remove();
+                updateProgress();
+            });
+        });
+
+        // Update add new habit button
         document.getElementById('add-habit-btn').addEventListener('click', function() {
             const habitName = prompt('Enter the name of your new habit:');
             if (habitName && habitName.trim() !== '') {
@@ -520,35 +530,15 @@
                 
                 // Add event listener to the delete button
                 const deleteBtn = newHabit.querySelector('.delete-habit-btn');
-                deleteBtn.addEventListener('click', function() {
-                    if (confirm('Are you sure you want to delete this habit?')) {
-                        newHabit.remove();
-                        updateProgress();
-                    }
+                deleteBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    newHabit.remove();
+                    updateProgress();
                 });
                 
                 // Update progress immediately after adding new habit
                 updateProgress();
             }
-        });
-
-        // Add delete functionality to existing habits
-        document.querySelectorAll('.delete-habit-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                if (confirm('Are you sure you want to delete this habit?')) {
-                    const habitItem = this.closest('.flex.items-center');
-                    habitItem.remove();
-                    updateProgress();
-                }
-            });
-        });
-
-        // Create first habit button
-        document.getElementById('create-habit-btn')?.addEventListener('click', function() {
-            document.getElementById('habits-empty').classList.add('hidden');
-            document.getElementById('habits-list').classList.remove('hidden');
-            document.getElementById('add-habit-btn').classList.remove('hidden');
-            document.getElementById('progress-section').classList.remove('hidden');
         });
     </script>
 <script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
